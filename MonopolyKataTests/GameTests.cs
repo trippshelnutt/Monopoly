@@ -40,5 +40,15 @@ namespace MonopolyKataTests
             Assert.IsTrue(games.Any(g => g.Players.First().Name.Value == "horse"));
             Assert.IsTrue(games.Any(g => g.Players.First().Name.Value == "car"));
         }
+
+        [TestMethod]
+        public void PlayReturns20Rounds()
+        {
+            var game = Game.Create(new[] { "horse", "car" });
+
+            var rounds = game.Play();
+
+            Assert.AreEqual(20, rounds.Count());
+        }
     }
 }

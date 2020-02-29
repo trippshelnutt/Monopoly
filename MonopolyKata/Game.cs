@@ -6,8 +6,9 @@ namespace MonopolyKata
 {
     public readonly struct Game
     {
-        public const int MinimumNumberOfPlayers = 2;
-        public const int MaximumNumberOfPlayers = 8;
+        private const int MinimumNumberOfPlayers = 2;
+        private const int MaximumNumberOfPlayers = 8;
+        private const int NumberOfRounds = 20;
 
         private Game(IEnumerable<Player> players)
         {
@@ -39,6 +40,11 @@ namespace MonopolyKata
         public Game ShufflePlayers()
         {
             return With(Players.OrderBy(p => Guid.NewGuid()).ToList());
+        }
+
+        public IEnumerable<Round> Play()
+        {
+            return Enumerable.Range(1, NumberOfRounds).Select(i => new Round());
         }
     }
 }
