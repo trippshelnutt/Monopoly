@@ -32,7 +32,7 @@ namespace MonopolyKata
             return new Game(players).ShufflePlayers();
         }
 
-        public Game With(IEnumerable<Player> players = null)
+        private Game With(IEnumerable<Player> players = null)
         {
             return new Game(players ?? Players);
         }

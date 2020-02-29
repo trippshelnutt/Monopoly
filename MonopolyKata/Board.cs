@@ -21,7 +21,7 @@ namespace MonopolyKata
 
         public Player MovePlayer(Player player, RollResult rollResult)
         {
-            player = player.With(location: GetNewLocation(player.Location, rollResult.Value));
+            player = player.MoveToLocation(GetNewLocation(player.Location, rollResult.Value));
             return player;
         }
 
