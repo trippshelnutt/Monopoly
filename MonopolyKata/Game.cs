@@ -51,7 +51,7 @@ namespace MonopolyKata
         public Round PlayRound()
         {
             var game = this;
-            return new Round(Players.Select(p => game.TakeTurn(p)));
+            return new Round(Players.Select(p => game.TakeTurn(p)).ToList());
         }
 
         public Turn TakeTurn(Player player)

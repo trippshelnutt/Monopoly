@@ -62,5 +62,20 @@ namespace MonopolyKataTests
             Assert.AreEqual(20, turns.Where(t => t.Player.Name.Value == "horse").Count());
             Assert.AreEqual(20, turns.Where(t => t.Player.Name.Value == "car").Count());
         }
+
+        [TestMethod]
+        public void PlayerOrderIsTheSameForEveryRound()
+        {
+            var game = Game.Create(new[] { "horse", "car" });
+
+            var rounds = game.Play();
+
+            var firstPlayerTurns = rounds.Select(r => r.Turns[0]);
+            var secondPlayerTurns = rounds.Select(r => r.Turns[1]);
+            var firstPlayerName = firstPlayerTurns.First().Player.Name;
+            var secondPlayerName = secondPlayerTurns.First().Player.Name;
+            Assert.IsTrue(firstPlayerTurns.All(t => t.Player.Name.Value == firstPlayerName.Value));
+            Assert.IsTrue(secondPlayerTurns.All(t => t.Player.Name.Value == secondPlayerName.Value));
+        }
     }
 }

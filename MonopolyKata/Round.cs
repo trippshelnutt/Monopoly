@@ -4,11 +4,11 @@ namespace MonopolyKata
 {
     public readonly struct Round
     {
-        public Round(IEnumerable<Turn> turns)
+        public Round(IList<Turn> turns)
         {
             Turns = turns;
         }
 
-        public IEnumerable<Turn> Turns { get; }
+        public IList<Turn> Turns { get; }
     }
 }
