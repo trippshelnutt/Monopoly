@@ -4,26 +4,23 @@ namespace MonopolyKata
 {
     public readonly struct Die
     {
+        private static readonly Random Random = new Random();
+
         private Die(int numberOfSides)
         {
             NumberOfSides = numberOfSides;
         }
+
+        public int NumberOfSides { get; }
 
         public static Die Create(int numberOfSides)
         {
             return new Die(numberOfSides);
         }
 
-        public int NumberOfSides { get; }
-    }
-
-    public static class DieServices
-    {
-        public static readonly Random Random = new Random();
-
-        public static RollResult Roll(this Die dice)
+        public RollResult Roll()
         {
-            return new RollResult(Random.Next(1, dice.NumberOfSides)); 
+            return new RollResult(Random.Next(1, NumberOfSides)); 
         }
     }
 }

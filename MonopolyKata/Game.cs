@@ -14,6 +14,8 @@ namespace MonopolyKata
             Players = players;
         }
 
+        public IEnumerable<Player> Players { get; }
+
         public static Game Create(IEnumerable<string> names)
         {
             return Create(names.Select(n => Player.Create(n)));
@@ -26,14 +28,17 @@ namespace MonopolyKata
                 throw new Exception();
             }
 
-            return new Game(players);
+            return new Game(players).ShufflePlayers();
         }
-
-        public IEnumerable<Player> Players { get; }
 
         public Game With(IEnumerable<Player> players = null)
         {
             return new Game(players ?? Players);
+        }
+
+        public Game ShufflePlayers()
+        {
+            return With(Players.OrderBy(p => Guid.NewGuid()).ToList());
         }
     }
 }

@@ -14,13 +14,13 @@
             Location = location;
         }
 
+        public Name Name { get; }
+        public Location Location { get; }
+
         public static Player Create(string name, int location = 0)
         {
             return new Player(name, location);
         }
-
-        public Name Name { get; }
-        public Location Location { get; }
 
         public Player With(Name? name = null, Location? location = null)
         {

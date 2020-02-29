@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonopolyKata;
@@ -29,6 +28,17 @@ namespace MonopolyKataTests
         public void CreatingAGameWithMoreThan8PlayersFails()
         {
             Game.Create(Enumerable.Range(1, 9).Select(i => $"Player{i}"));
+        }
+
+        [TestMethod]
+        public void PlayerOrderingIsRandom()
+        {
+            var players = new[] { "horse", "car" }.Select(n => Player.Create(n));
+
+            var games = Enumerable.Range(1, 100).Select(i => Game.Create(players));
+
+            Assert.IsTrue(games.Any(g => g.Players.First().Name.Value == "horse"));
+            Assert.IsTrue(games.Any(g => g.Players.First().Name.Value == "car"));
         }
     }
 }
