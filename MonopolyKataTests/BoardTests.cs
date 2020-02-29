@@ -4,7 +4,7 @@ using MonopolyKata;
 namespace MonopolyKataTests
 {
     [TestClass]
-    public class BoardServicesTests
+    public class BoardTests
     {
         [TestMethod]
         public void PlayerOnBeginningLocationRolls7AndEndsOnLocation7()

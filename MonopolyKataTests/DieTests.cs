@@ -5,7 +5,7 @@ using MonopolyKata;
 namespace MonopolyKataTests
 {
     [TestClass]
-    public class DieServicesTests
+    public class DieTests
     {
         [TestMethod]
         public void RollReturnsValueInRange()
