@@ -50,5 +50,17 @@ namespace MonopolyKataTests
 
             Assert.AreEqual(20, rounds.Count());
         }
+
+        [TestMethod]
+        public void PlayReturns20RoundsForEachPlayer()
+        {
+            var game = Game.Create(new[] { "horse", "car" });
+
+            var rounds = game.Play();
+
+            var turns = rounds.SelectMany(r => r.Turns);
+            Assert.AreEqual(20, turns.Where(t => t.Player.Name.Value == "horse").Count());
+            Assert.AreEqual(20, turns.Where(t => t.Player.Name.Value == "car").Count());
+        }
     }
 }

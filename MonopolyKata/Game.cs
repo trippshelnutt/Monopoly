@@ -44,7 +44,19 @@ namespace MonopolyKata
 
         public IEnumerable<Round> Play()
         {
-            return Enumerable.Range(1, NumberOfRounds).Select(i => new Round());
+            var game = this;
+            return Enumerable.Range(1, NumberOfRounds).Select(i => game.PlayRound());
+        }
+
+        public Round PlayRound()
+        {
+            var game = this;
+            return new Round(Players.Select(p => game.TakeTurn(p)));
+        }
+
+        public Turn TakeTurn(Player player)
+        {
+            return new Turn(player);
         }
     }
 }
