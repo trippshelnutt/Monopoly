@@ -2,45 +2,45 @@
 {
     public static class LocationConstants
     {
-        public static readonly Location Go = new Location(0);
-        public static readonly Location MediterraneanAve = new Location(1);
+        public static readonly LocationIndex Go = new LocationIndex(0);
+        public static readonly LocationIndex MediterraneanAve = new LocationIndex(1);
         // Community Chest
-        public static readonly Location BalticAve = new Location(3);
-        public static readonly Location IncomeTax = new Location(4);
-        public static readonly Location ReadingRailroad = new Location(5);
-        public static readonly Location OrientalAve = new Location(6);
+        public static readonly LocationIndex BalticAve = new LocationIndex(3);
+        public static readonly LocationIndex IncomeTax = new LocationIndex(4);
+        public static readonly LocationIndex ReadingRailroad = new LocationIndex(5);
+        public static readonly LocationIndex OrientalAve = new LocationIndex(6);
         // Chance
-        public static readonly Location VermontAve = new Location(8);
-        public static readonly Location ConnecticutAve = new Location(9);
-        public static readonly Location JustVisiting = new Location(10);
-        public static readonly Location StCharlesPlace = new Location(11);
-        public static readonly Location ElectricCompany = new Location(12);
-        public static readonly Location StatesAve = new Location(13);
-        public static readonly Location VirginiaAve = new Location(14);
-        public static readonly Location PennsylvaniaRailroad = new Location(15);
-        public static readonly Location StJamesPlace = new Location(16);
+        public static readonly LocationIndex VermontAve = new LocationIndex(8);
+        public static readonly LocationIndex ConnecticutAve = new LocationIndex(9);
+        public static readonly LocationIndex JustVisiting = new LocationIndex(10);
+        public static readonly LocationIndex StCharlesPlace = new LocationIndex(11);
+        public static readonly LocationIndex ElectricCompany = new LocationIndex(12);
+        public static readonly LocationIndex StatesAve = new LocationIndex(13);
+        public static readonly LocationIndex VirginiaAve = new LocationIndex(14);
+        public static readonly LocationIndex PennsylvaniaRailroad = new LocationIndex(15);
+        public static readonly LocationIndex StJamesPlace = new LocationIndex(16);
         // Community Chest
-        public static readonly Location TennesseeAve = new Location(18);
-        public static readonly Location NewYorkAve = new Location(19);
-        public static readonly Location FreeParking = new Location(20);
-        public static readonly Location KentuckyAve = new Location(21);
+        public static readonly LocationIndex TennesseeAve = new LocationIndex(18);
+        public static readonly LocationIndex NewYorkAve = new LocationIndex(19);
+        public static readonly LocationIndex FreeParking = new LocationIndex(20);
+        public static readonly LocationIndex KentuckyAve = new LocationIndex(21);
         // Chance
-        public static readonly Location IndianaAve = new Location(23);
-        public static readonly Location IllinoisAve = new Location(24);
-        public static readonly Location BAndORailroad = new Location(25);
-        public static readonly Location AtlanticAve = new Location(26);
-        public static readonly Location VentnorAve = new Location(27);
-        public static readonly Location WaterWorks = new Location(28);
-        public static readonly Location MarvinGardens = new Location(29);
-        public static readonly Location GoToJail = new Location(30);
-        public static readonly Location PacificAve = new Location(31);
-        public static readonly Location NorthCarolinaAve = new Location(32);
+        public static readonly LocationIndex IndianaAve = new LocationIndex(23);
+        public static readonly LocationIndex IllinoisAve = new LocationIndex(24);
+        public static readonly LocationIndex BAndORailroad = new LocationIndex(25);
+        public static readonly LocationIndex AtlanticAve = new LocationIndex(26);
+        public static readonly LocationIndex VentnorAve = new LocationIndex(27);
+        public static readonly LocationIndex WaterWorks = new LocationIndex(28);
+        public static readonly LocationIndex MarvinGardens = new LocationIndex(29);
+        public static readonly LocationIndex GoToJail = new LocationIndex(30);
+        public static readonly LocationIndex PacificAve = new LocationIndex(31);
+        public static readonly LocationIndex NorthCarolinaAve = new LocationIndex(32);
         // Community Chest
-        public static readonly Location PennsylvaniaAve = new Location(34);
-        public static readonly Location ShortLineRailroad = new Location(35);
+        public static readonly LocationIndex PennsylvaniaAve = new LocationIndex(34);
+        public static readonly LocationIndex ShortLineRailroad = new LocationIndex(35);
         // Chance
-        public static readonly Location ParkPlace = new Location(37);
-        public static readonly Location LuxuryTax = new Location(38);
-        public static readonly Location Boardwalk = new Location(39);
+        public static readonly LocationIndex ParkPlace = new LocationIndex(37);
+        public static readonly LocationIndex LuxuryTax = new LocationIndex(38);
+        public static readonly LocationIndex Boardwalk = new LocationIndex(39);
     }
 }

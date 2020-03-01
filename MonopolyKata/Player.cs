@@ -2,7 +2,7 @@
 {
     public readonly struct Player
     {
-        public Player(Name name, Location location, Money balance)
+        public Player(Name name, LocationIndex location, Money balance)
         {
             Name = name;
             Location = location;
@@ -10,10 +10,10 @@
         }
 
         public Name Name { get; }
-        public Location Location { get; }
+        public LocationIndex Location { get; }
         public Money Balance { get; }
 
-        public Player With(Name? name = null, Location? location = null, Money? balance = null)
+        public Player With(Name? name = null, LocationIndex? location = null, Money? balance = null)
         {
             return new Player(name ?? Name, location ?? Location, balance ?? Balance);
         }
@@ -21,12 +21,12 @@
 
     public static class PlayerServices
     {
-        public static Player Create(Name name, Location? location = null, Money? balance = null)
+        public static Player Create(Name name, LocationIndex? location = null, Money? balance = null)
         {
-            return new Player(name, location ?? new Location(0), balance ?? new Money(0));
+            return new Player(name, location ?? new LocationIndex(0), balance ?? new Money(0));
         }
 
-        public static Player MoveToLocation(this Player player, Location location)
+        public static Player MoveToLocation(this Player player, LocationIndex location)
         {
             return player.With(location: location);
         }

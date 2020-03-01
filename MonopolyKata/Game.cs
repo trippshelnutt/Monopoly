@@ -13,8 +13,8 @@ namespace MonopolyKata
             Board board,
             Die die,
             IList<Round> rounds,
-            IDictionary<Location, Player> owners,
-            IDictionary<Location, Func<Game, Player, (Game, Player)>> activities)
+            IDictionary<LocationIndex, Player> owners,
+            IDictionary<LocationIndex, Func<Game, Player, (Game, Player)>> activities)
         {
             Players = players;
             Board = board;
@@ -29,16 +29,16 @@ namespace MonopolyKata
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
-        public IDictionary<Location, Player> Owners { get; }
-        public IDictionary<Location, Func<Game, Player, (Game, Player)>> Activities { get; }
+        public IDictionary<LocationIndex, Player> Owners { get; }
+        public IDictionary<LocationIndex, Func<Game, Player, (Game, Player)>> Activities { get; }
 
         public Game With(
             IEnumerable<Player> players = null,
             Board board = null,
             Die? die = null,
             IList<Round> rounds = null,
-            IDictionary<Location, Player> owners = null,
-            IDictionary<Location, Func<Game, Player, (Game, Player)>> activities = null)
+            IDictionary<LocationIndex, Player> owners = null,
+            IDictionary<LocationIndex, Func<Game, Player, (Game, Player)>> activities = null)
         {
             return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, owners ?? Owners, activities ?? Activities);
         }
@@ -57,12 +57,12 @@ namespace MonopolyKata
 
         public static Game Create(IEnumerable<Player> players)
         {
-            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), new Dictionary<Location, Player>(), BuildActivityDictionary()).ShufflePlayers();
+            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), new Dictionary<LocationIndex, Player>(), BuildActivityDictionary()).ShufflePlayers();
         }
 
-        private static IDictionary<Location, Func<Game, Player, (Game, Player)>> BuildActivityDictionary()
+        private static IDictionary<LocationIndex, Func<Game, Player, (Game, Player)>> BuildActivityDictionary()
         {
-            return new Dictionary<Location, Func<Game, Player, (Game, Player)>>
+            return new Dictionary<LocationIndex, Func<Game, Player, (Game, Player)>>
             {
                 { LocationConstants.MediterraneanAve, GameServices.RealEstateActivity },
                 { LocationConstants.BalticAve, GameServices.RealEstateActivity },
@@ -177,7 +177,7 @@ namespace MonopolyKata
             return (game.UpdatePlayer(player), player);
         }
 
-        public static (Game, Player) MovePlayerToLocation(this Game game, Player player, Location location)
+        public static (Game, Player) MovePlayerToLocation(this Game game, Player player, LocationIndex location)
         {
             player = player.MoveToLocation(location);
             return (game.UpdatePlayer(player), player);

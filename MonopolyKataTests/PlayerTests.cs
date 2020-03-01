@@ -10,7 +10,7 @@ namespace MonopolyKataTests
         public void MoveToLocationSetsPlayerLocation()
         {
             var player = PlayerServices.Create(NameConstants.Horse);
-            var expectedLocation = new Location(500);
+            var expectedLocation = new LocationIndex(500);
 
             var result = player.MoveToLocation(expectedLocation);
 

@@ -15,7 +15,7 @@ namespace MonopolyKataTests
 
             var (_, location) = board.MovePlayer(player.Location, rollResult);
 
-            Assert.AreEqual(new Location(7), location);
+            Assert.AreEqual(new LocationIndex(7), location);
         }
 
         [TestMethod]
