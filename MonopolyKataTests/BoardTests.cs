@@ -9,7 +9,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerOnBeginningLocationRolls7AndEndsOnLocation7()
         {
-            var board = Board.Create();
+            var board = BoardServices.Create();
             var player = Player.Create("horse");
             var rollResult = new RollResult(7);
 
@@ -21,7 +21,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerOnLocation39Rolls6AndEndsOnLocation5()
         {
-            var board = Board.Create();
+            var board = BoardServices.Create();
             var player = Player.Create("horse", 39);
             var rollResult = new RollResult(6);
 
