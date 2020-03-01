@@ -89,7 +89,7 @@ namespace MonopolyKata
 
             foreach (var player in game.Players)
             {
-                game = game.RollAndTakeTurn(player);
+                (game, _) = game.RollAndTakeTurn(player);
             }
 
             return game;
@@ -101,28 +101,43 @@ namespace MonopolyKata
             return game.With(rounds: game.Rounds.Append(round).ToList());
         }
 
-        public static Game RollAndTakeTurn(this Game game, Player player)
+        public static (Game, Player) RollAndTakeTurn(this Game game, Player player)
         {
             var rollResult = game.Die.Roll();
             return game.TakeTurn(player, rollResult);
         }
 
-        public static Game TakeTurn(this Game game, Player player, RollResult rollResult)
+        public static (Game, Player) TakeTurn(this Game game, Player player, RollResult rollResult)
         {
             var (timesPassingGo, location) = game.Board.MovePlayer(player.Location, rollResult);
+            (game, player) = game.DepositMoneyForPlayer(player, new Money(timesPassingGo * MonopolyConstants.PassingGoPayout.Amount));
 
-            player = player.DepositMoney(new Money(timesPassingGo * MonopolyConstants.PassingGoPayout.Amount));
+            (game, player) = game.MovePlayerToLocation(player, location);
+            (game, player) = game.ProcessLocationActivities(player);
 
-            if (location.Equals(LocationConstants.GoToJail))
+            return (game.AddTurn(new Turn(player)), player);
+        }
+
+        public static (Game, Player) DepositMoneyForPlayer(this Game game, Player player, Money amountToDeposit)
+        {
+            player = player.DepositMoney(amountToDeposit);
+            return (game.UpdatePlayer(player), player);
+        }
+
+        public static (Game, Player) MovePlayerToLocation(this Game game, Player player, Location location)
+        {
+            player = player.MoveToLocation(location);
+            return (game.UpdatePlayer(player), player);
+        }
+
+        public static (Game, Player) ProcessLocationActivities(this Game game, Player player)
+        {
+            if (player.Location.Equals(LocationConstants.GoToJail))
             {
-                location = LocationConstants.JustVisiting;
+                (game, player) = game.MovePlayerToLocation(player, LocationConstants.JustVisiting);
             }
 
-            player = player.MoveToLocation(location);
-
-            game = game.UpdatePlayer(player);
-
-            return game.AddTurn(new Turn(player));
+            return (game, player);
         }
 
         public static Game AddTurn(this Game game, Turn turn)

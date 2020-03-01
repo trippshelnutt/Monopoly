@@ -84,7 +84,7 @@ namespace MonopolyKataTests
             var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk) });
             var rollResult = new RollResult(1);
 
-            game = game.StartNewRound()
+            (game, _) = game.StartNewRound()
                 .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
             Assert.AreEqual(new Money(200), game.PlayersByName[NameConstants.Horse].Balance);
@@ -96,7 +96,7 @@ namespace MonopolyKataTests
             var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk) });
             var rollResult = new RollResult(2);
 
-            game = game.StartNewRound()
+            (game, _) = game.StartNewRound()
                 .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
             Assert.AreEqual(new Money(200), game.PlayersByName[NameConstants.Horse].Balance);
@@ -108,7 +108,7 @@ namespace MonopolyKataTests
             var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.ReadingRailroad) });
             var rollResult = new RollResult(2);
 
-            game = game.StartNewRound()
+            (game, _) = game.StartNewRound()
                 .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
             Assert.AreEqual(new Money(0), game.PlayersByName[NameConstants.Horse].Balance);
@@ -120,7 +120,7 @@ namespace MonopolyKataTests
             var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk) });
             var rollResult = new RollResult(42);
 
-            game = game.StartNewRound()
+            (game, _) = game.StartNewRound()
                 .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
             Assert.AreEqual(new Money(400), game.PlayersByName[NameConstants.Horse].Balance);
@@ -132,7 +132,7 @@ namespace MonopolyKataTests
             var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.WaterWorks) });
             var rollResult = new RollResult(2);
 
-            game = game.StartNewRound()
+            (game, _) = game.StartNewRound()
                 .TakeTurn(game.Players.First(), rollResult);
 
             Assert.AreEqual(new Money(0), game.PlayersByName[NameConstants.Horse].Balance);
@@ -145,7 +145,7 @@ namespace MonopolyKataTests
             var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.WaterWorks) });
             var rollResult = new RollResult(3);
 
-            game = game.StartNewRound()
+            (game, _) = game.StartNewRound()
                 .TakeTurn(game.Players.First(), rollResult);
 
             Assert.AreEqual(new Money(0), game.PlayersByName[NameConstants.Horse].Balance);
