@@ -14,6 +14,11 @@ namespace MonopolyKata
             Board = board;
             Die = die;
             Rounds = rounds;
+            Activities = new Dictionary<Location, Func<Game, Player, (Game, Player)>>
+            {
+                { LocationConstants.GoToJail, GameServices.GoToJailActivity },
+                { LocationConstants.IncomeTax, GameServices.IncomeTaxActivity }
+            };
         }
 
         public IEnumerable<Player> Players { get; }
@@ -21,6 +26,7 @@ namespace MonopolyKata
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
+        public IDictionary<Location, Func<Game, Player, (Game, Player)>> Activities { get; }
 
         public Game With(IEnumerable<Player> players = null, Board? board = null, Die? die = null, IList<Round> rounds = null)
         {
@@ -124,6 +130,12 @@ namespace MonopolyKata
             return (game.UpdatePlayer(player), player);
         }
 
+        public static (Game, Player) WithdrawMoneyForPlayer(this Game game, Player player, Money amountToDeposit)
+        {
+            player = player.WithdrawMoney(amountToDeposit);
+            return (game.UpdatePlayer(player), player);
+        }
+
         public static (Game, Player) MovePlayerToLocation(this Game game, Player player, Location location)
         {
             player = player.MoveToLocation(location);
@@ -132,12 +144,23 @@ namespace MonopolyKata
 
         public static (Game, Player) ProcessLocationActivities(this Game game, Player player)
         {
-            if (player.Location.Equals(LocationConstants.GoToJail))
+            if (game.Activities.ContainsKey(player.Location))
             {
-                (game, player) = game.MovePlayerToLocation(player, LocationConstants.JustVisiting);
+                var activity = game.Activities[player.Location];
+                (game, player) = activity(game, player);
             }
-
             return (game, player);
+        }
+
+        public static (Game, Player) GoToJailActivity(this Game game, Player player)
+        {
+            return game.MovePlayerToLocation(player, LocationConstants.JustVisiting);
+        }
+
+        public static (Game, Player) IncomeTaxActivity(this Game game, Player player)
+        {
+            var taxAmount = (int)(player.Balance.Amount * .1);
+            return game.WithdrawMoneyForPlayer(player, new Money(taxAmount)); 
         }
 
         public static Game AddTurn(this Game game, Turn turn)
