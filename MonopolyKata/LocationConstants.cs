@@ -42,16 +42,5 @@
         public static readonly LocationIndex ParkPlace = new LocationIndex(37);
         public static readonly LocationIndex LuxuryTax = new LocationIndex(38);
         public static readonly LocationIndex Boardwalk = new LocationIndex(39);
-
-        public static readonly PropertyGroup PurplePropertyGroup = new PropertyGroup("Purple");
-        public static readonly PropertyGroup LightBluePropertyGroup = new PropertyGroup("LightBlue");
-        public static readonly PropertyGroup VioletPropertyGroup = new PropertyGroup("Violet");
-        public static readonly PropertyGroup OrangePropertyGroup = new PropertyGroup("Orange");
-        public static readonly PropertyGroup RedPropertyGroup = new PropertyGroup("Red");
-        public static readonly PropertyGroup YellowPropertyGroup = new PropertyGroup("Yellow");
-        public static readonly PropertyGroup DarkGreenPropertyGroup = new PropertyGroup("DarkGreen");
-        public static readonly PropertyGroup DarkBluePropertyGroup = new PropertyGroup("DarkBlue");
-        public static readonly PropertyGroup RailroadGroup = new PropertyGroup("Railroad");
-        public static readonly PropertyGroup UtilityGroup = new PropertyGroup("Utility");
     }
 }
