@@ -17,7 +17,8 @@ namespace MonopolyKata
             Activities = new Dictionary<Location, Func<Game, Player, (Game, Player)>>
             {
                 { LocationConstants.GoToJail, GameServices.GoToJailActivity },
-                { LocationConstants.IncomeTax, GameServices.IncomeTaxActivity }
+                { LocationConstants.IncomeTax, GameServices.IncomeTaxActivity },
+                { LocationConstants.LuxuryTax, GameServices.LuxuryTaxActivity }
             };
         }
 
@@ -28,7 +29,7 @@ namespace MonopolyKata
         public IList<Round> Rounds { get; }
         public IDictionary<Location, Func<Game, Player, (Game, Player)>> Activities { get; }
 
-        public Game With(IEnumerable<Player> players = null, Board? board = null, Die? die = null, IList<Round> rounds = null)
+        public Game With(IEnumerable<Player> players = null, Board board = null, Die? die = null, IList<Round> rounds = null)
         {
             return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds);
         }
@@ -160,6 +161,12 @@ namespace MonopolyKata
         public static (Game, Player) IncomeTaxActivity(this Game game, Player player)
         {
             var taxAmount = Math.Min((int)(player.Balance.Amount * .1), 200);
+            return game.WithdrawMoneyForPlayer(player, new Money(taxAmount)); 
+        }
+
+        public static (Game, Player) LuxuryTaxActivity(this Game game, Player player)
+        {
+            var taxAmount = 75;
             return game.WithdrawMoneyForPlayer(player, new Money(taxAmount)); 
         }
 

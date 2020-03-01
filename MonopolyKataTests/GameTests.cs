@@ -211,5 +211,29 @@ namespace MonopolyKataTests
 
             Assert.AreEqual(new Money(2000), player.Balance);
         }
+
+        [TestMethod]
+        public void PlayerLandsOnLuxuryTaxAndPays75()
+        {
+            var player = PlayerServices.Create(NameConstants.Horse, LocationConstants.ParkPlace, new Money(100));
+            var game = GameServices.Create(new[] { player }).StartNewRound();
+            var rollResult = new RollResult(1);
+
+            (_, player) = game.TakeTurn(player, rollResult);
+
+            Assert.AreEqual(new Money(25), player.Balance);
+        }
+
+        [TestMethod]
+        public void PlayerPassesOverLuxuryTaxAndBalanceDoesNotChange()
+        {
+            var player = PlayerServices.Create(NameConstants.Horse, LocationConstants.BalticAve, new Money(100));
+            var game = GameServices.Create(new[] { player }).StartNewRound();
+            var rollResult = new RollResult(2);
+
+            (_, player) = game.TakeTurn(player, rollResult);
+
+            Assert.AreEqual(new Money(100), player.Balance);
+        }
     }
 }
