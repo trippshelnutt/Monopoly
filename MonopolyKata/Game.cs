@@ -14,7 +14,7 @@ namespace MonopolyKata
         {
             Players = players ?? Enumerable.Empty<Player>();
             Board = board ?? BoardServices.Create();
-            Die = die ?? Die.Create();
+            Die = die ?? DieServices.Create();
             Rounds = rounds ?? Enumerable.Empty<Round>().ToList();
         }
 
@@ -35,7 +35,7 @@ namespace MonopolyKata
                 throw new Exception();
             }
 
-            return new Game(players, BoardServices.Create(), Die.Create(), new List<Round>()).ShufflePlayers();
+            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>()).ShufflePlayers();
         }
 
         private Game With(IEnumerable<Player> players = null, Board? board = null, Die? die = null, IList<Round> rounds = null)
