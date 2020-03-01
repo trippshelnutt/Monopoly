@@ -8,18 +8,18 @@ namespace MonopolyKata
     {
         private Game() { }
 
-        public Game(IEnumerable<Player> players, Board board, Die die, IList<Round> rounds)
+        public Game(
+            IEnumerable<Player> players,
+            Board board,
+            Die die,
+            IList<Round> rounds,
+            IDictionary<Location, Func<Game, Player, (Game, Player)>> activities)
         {
             Players = players;
             Board = board;
             Die = die;
             Rounds = rounds;
-            Activities = new Dictionary<Location, Func<Game, Player, (Game, Player)>>
-            {
-                { LocationConstants.GoToJail, GameServices.GoToJailActivity },
-                { LocationConstants.IncomeTax, GameServices.IncomeTaxActivity },
-                { LocationConstants.LuxuryTax, GameServices.LuxuryTaxActivity }
-            };
+            Activities = activities;
         }
 
         public IEnumerable<Player> Players { get; }
@@ -29,9 +29,14 @@ namespace MonopolyKata
         public IList<Round> Rounds { get; }
         public IDictionary<Location, Func<Game, Player, (Game, Player)>> Activities { get; }
 
-        public Game With(IEnumerable<Player> players = null, Board board = null, Die? die = null, IList<Round> rounds = null)
+        public Game With(
+            IEnumerable<Player> players = null,
+            Board board = null,
+            Die? die = null,
+            IList<Round> rounds = null,
+            IDictionary<Location, Func<Game, Player, (Game, Player)>> activities = null)
         {
-            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds);
+            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, activities ?? Activities);
         }
     }
 
@@ -48,9 +53,18 @@ namespace MonopolyKata
 
         public static Game Create(IEnumerable<Player> players)
         {
-            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>()).ShufflePlayers();
+            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), BuildActivityDictionary()).ShufflePlayers();
         }
 
+        private static IDictionary<Location, Func<Game, Player, (Game, Player)>> BuildActivityDictionary()
+        {
+            return new Dictionary<Location, Func<Game, Player, (Game, Player)>>
+            {
+                { LocationConstants.GoToJail, GameServices.GoToJailActivity },
+                { LocationConstants.IncomeTax, GameServices.IncomeTaxActivity },
+                { LocationConstants.LuxuryTax, GameServices.LuxuryTaxActivity }
+            };
+        }
 
         private static Game UpdatePlayer(this Game game, Player player)
         {
