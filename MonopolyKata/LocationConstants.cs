@@ -2,15 +2,6 @@
 {
     public static class LocationConstants
     {
-        public static readonly LocationType GoType = new LocationType("Go");
-        public static readonly LocationType GoToJailType = new LocationType("GoToJail");
-        public static readonly LocationType IncomeTaxType = new LocationType("IncomeTax");
-        public static readonly LocationType LuxuryTaxType = new LocationType("LuxuryTax");
-        public static readonly LocationType RealEstateType = new LocationType("RealEstate");
-        public static readonly LocationType RailroadType = new LocationType("Railroad");
-        public static readonly LocationType UtilityType = new LocationType("Utility");
-        public static readonly LocationType EmptyType = new LocationType("Empty");
-
         public static readonly LocationIndex Go = new LocationIndex(0);
         public static readonly LocationIndex MediterraneanAve = new LocationIndex(1);
         public static readonly LocationIndex Location2 = new LocationIndex(2);

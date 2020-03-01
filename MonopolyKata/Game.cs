@@ -64,10 +64,10 @@ namespace MonopolyKata
         {
             return new Dictionary<LocationType, Func<Game, Player, (Game, Player)>>
             {
-                { LocationConstants.RealEstateType, GameServices.RealEstateActivity },
-                { LocationConstants.IncomeTaxType, GameServices.IncomeTaxActivity },
-                { LocationConstants.GoToJailType, GameServices.GoToJailActivity },
-                { LocationConstants.LuxuryTaxType, GameServices.LuxuryTaxActivity }
+                { LocationType.RealEstate, GameServices.RealEstateActivity },
+                { LocationType.IncomeTax, GameServices.IncomeTaxActivity },
+                { LocationType.GoToJail, GameServices.GoToJailActivity },
+                { LocationType.LuxuryTax, GameServices.LuxuryTaxActivity }
             };
         }
 
