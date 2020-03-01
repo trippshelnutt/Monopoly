@@ -159,7 +159,7 @@ namespace MonopolyKata
 
         public static (Game, Player) IncomeTaxActivity(this Game game, Player player)
         {
-            var taxAmount = (int)(player.Balance.Amount * .1);
+            var taxAmount = Math.Min((int)(player.Balance.Amount * .1), 200);
             return game.WithdrawMoneyForPlayer(player, new Money(taxAmount)); 
         }
 

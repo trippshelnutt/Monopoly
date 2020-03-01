@@ -163,5 +163,17 @@ namespace MonopolyKataTests
 
             Assert.AreEqual(new Money(1620), player.Balance);
         }
+
+        [TestMethod]
+        public void PlayerLandsOnIncomeTaxAndPaysMaxOf200()
+        {
+            var player = PlayerServices.Create(NameConstants.Horse, LocationConstants.BalticAve, new Money(2200));
+            var game = GameServices.Create(new[] { player }).StartNewRound();
+            var rollResult = new RollResult(1);
+
+            (_, player) = game.TakeTurn(player, rollResult);
+
+            Assert.AreEqual(new Money(2000), player.Balance);
+        }
     }
 }
