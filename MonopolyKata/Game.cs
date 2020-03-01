@@ -64,7 +64,7 @@ namespace MonopolyKata
         {
             return new Dictionary<LocationType, Func<Game, Player, (Game, Player)>>
             {
-                { LocationType.RealEstate, GameServices.RealEstateActivity },
+                { LocationType.Property, GameServices.PropertyActivity },
                 { LocationType.IncomeTax, GameServices.IncomeTaxActivity },
                 { LocationType.GoToJail, GameServices.GoToJailActivity },
                 { LocationType.LuxuryTax, GameServices.LuxuryTaxActivity }
@@ -190,7 +190,7 @@ namespace MonopolyKata
             return game.WithdrawMoneyForPlayer(player, new Money(taxAmount)); 
         }
 
-        public static (Game, Player) RealEstateActivity(this Game game, Player player)
+        public static (Game, Player) PropertyActivity(this Game game, Player player)
         {
             return (game, player);
         }
