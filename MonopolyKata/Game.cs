@@ -6,22 +6,30 @@ namespace MonopolyKata
 {
     public readonly struct Game
     {
-        private const int MinimumNumberOfPlayers = 2;
-        private const int MaximumNumberOfPlayers = 8;
-        private const int NumberOfRounds = 20;
-
-        private Game(IEnumerable<Player> players = null, Board? board = null, Die? die = null, IList<Round> rounds = null)
+        public Game(IEnumerable<Player> players, Board board, Die die, IList<Round> rounds)
         {
-            Players = players ?? Enumerable.Empty<Player>();
-            Board = board ?? BoardServices.Create();
-            Die = die ?? DieServices.Create();
-            Rounds = rounds ?? Enumerable.Empty<Round>().ToList();
+            Players = players;
+            Board = board;
+            Die = die;
+            Rounds = rounds;
         }
 
         public IEnumerable<Player> Players { get; }
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
+
+        public Game With(IEnumerable<Player> players = null, Board? board = null, Die? die = null, IList<Round> rounds = null)
+        {
+            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds);
+        }
+    }
+
+    public static class GameServices
+    {
+        private const int MinimumNumberOfPlayers = 2;
+        private const int MaximumNumberOfPlayers = 8;
+        private const int NumberOfRounds = 20;
 
         public static Game Create(IEnumerable<string> names)
         {
@@ -38,29 +46,24 @@ namespace MonopolyKata
             return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>()).ShufflePlayers();
         }
 
-        private Game With(IEnumerable<Player> players = null, Board? board = null, Die? die = null, IList<Round> rounds = null)
+
+        private static Game UpdatePlayer(this Game game, Player player)
         {
-            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds);
+            return game.With(players: game.Players.Select(p => p.Name.Value == player.Name.Value ? player : p));
         }
 
-        private Game UpdatePlayer(Player player)
+        private static Game UpdateRound(this Game game, Round round)
         {
-            return With(players: Players.Select(p => p.Name.Value == player.Name.Value ? player : p));
+            return game.With(rounds: game.Rounds.Select(r => r.RoundNumber.Value == round.RoundNumber.Value ? round : r).ToList());
         }
 
-        private Game UpdateRound(Round round)
+        public static Game ShufflePlayers(this Game game)
         {
-            return With(rounds: Rounds.Select(r => r.RoundNumber.Value == round.RoundNumber.Value ? round : r).ToList());
+            return game.With(game.Players.OrderBy(p => Guid.NewGuid()).ToList());
         }
 
-        public Game ShufflePlayers()
+        public static Game Play(this Game game)
         {
-            return With(Players.OrderBy(p => Guid.NewGuid()).ToList());
-        }
-
-        public Game Play()
-        {
-            var game = this;
             for (var i = 0; i < NumberOfRounds; i++)
             {
                 game = game.PlayRound(); 
@@ -68,34 +71,35 @@ namespace MonopolyKata
             return game;
         }
 
-        public Game PlayRound()
+        public static Game PlayRound(this Game game)
         {
-            var game = StartNewRound();
-            foreach (var player in Players)
+            game = game.StartNewRound();
+            foreach (var player in game.Players)
             {
                 game = game.TakeTurn(player);
             }
             return game;
         }
 
-        public Game StartNewRound()
+        public static Game StartNewRound(this Game game)
         {
-            var round = new Round(new RoundNumber(Rounds.Count() + 1), new List<Turn>());
-            return With(rounds: Rounds.Append(round).ToList());
+            var round = new Round(new RoundNumber(game.Rounds.Count() + 1), new List<Turn>());
+            return game.With(rounds: game.Rounds.Append(round).ToList());
         }
 
-        public Game TakeTurn(Player player)
+        public static Game TakeTurn(this Game game, Player player)
         {
-            var rollResult = Die.Roll();
-            var updatedPlayer = Board.MovePlayer(player, rollResult);
-            var game = UpdatePlayer(updatedPlayer);
+            var rollResult = game.Die.Roll();
+            var updatedPlayer = game.Board.MovePlayer(player, rollResult);
+            game = game.UpdatePlayer(updatedPlayer);
             return game.AddTurn(new Turn(player));
         }
 
-        public Game AddTurn(Turn turn)
+        public static Game AddTurn(this Game game, Turn turn)
         {
-            var round = Rounds.Last().With(turns: Rounds.Last().Turns.Append(turn).ToList());
-            return UpdateRound(round);
+            var round = game.Rounds.Last();
+            round = round.With(turns: round.Turns.Append(turn).ToList());
+            return game.UpdateRound(round);
         }
     }
 }
