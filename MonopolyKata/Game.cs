@@ -108,7 +108,7 @@ namespace MonopolyKata
         {
             var (timesPassingGo, location) = game.Board.MovePlayer(player.Location, rollResult);
 
-            player = player.DepositMoney(new Money(timesPassingGo * 200));
+            player = player.DepositMoney(new Money(timesPassingGo * MonopolyConstants.PassingGoPayout.Amount));
             player = player.MoveToLocation(location);
 
             game = game.UpdatePlayer(player);
