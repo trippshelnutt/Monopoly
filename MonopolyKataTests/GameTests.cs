@@ -20,7 +20,7 @@ namespace MonopolyKataTests
         [ExpectedException(typeof(Exception))]
         public void CreatingAGameWithLessThan2PlayersFails()
         {
-            var players = new[] { NameConstants.Horse };
+            var players = new[] { Name.Horse };
             GameServices.Create(players).Play();
         }
 
@@ -37,8 +37,8 @@ namespace MonopolyKataTests
         {
             var games = Enumerable.Range(1, 100).Select(i => GameTestsServices.CreateHorseCarGame());
 
-            Assert.IsTrue(games.Any(g => g.Players.First().Name.Equals(NameConstants.Horse)));
-            Assert.IsTrue(games.Any(g => g.Players.First().Name.Equals(NameConstants.Car)));
+            Assert.IsTrue(games.Any(g => g.Players.First().Name.Equals(Name.Horse)));
+            Assert.IsTrue(games.Any(g => g.Players.First().Name.Equals(Name.Car)));
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerBalanceIncreasesBy200WhenPlayerLandsOnGo()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.Boardwalk);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.Boardwalk);
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(1);
 
@@ -93,7 +93,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerBalanceIncreasesBy200WhenPlayerPassesOverGo()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.Boardwalk);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.Boardwalk);
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(2);
 
@@ -105,7 +105,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerBalanceDoesNotIncreaseBy200WhenPlayerDoesNotPassOverGo()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.ReadingRailroad);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.ReadingRailroad);
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(2);
 
@@ -117,7 +117,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerBalanceIncreasesBy400IfPlayerCouldPassGoTwice()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.Boardwalk);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.Boardwalk);
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(42);
 
@@ -129,7 +129,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerLandsOnGoToJailAndEndsUpOnJustVisitingAndBalanceIsUnchanged()
         {
-            var player = PlayerServices.Create(NameConstants.Horse);
+            var player = PlayerServices.Create(Name.Horse);
             var game = GameServices.Create(new[] { player });
 
             (_, player) = game.GoToJailActivity(player);
@@ -141,7 +141,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerPassesOverGoToJailAndEndsUpOnNormalLocationAndBalanceIsUnchanged()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.WaterWorks);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.WaterWorks);
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(3);
 
@@ -154,7 +154,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerLandsOnIncomeTaxAndPays10Percent()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, balance: new Money(1800));
+            var player = PlayerServices.Create(Name.Horse, balance: new Money(1800));
             var game = GameServices.Create(new[] { player });
 
             (_, player) = game.IncomeTaxActivity(player);
@@ -165,7 +165,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerLandsOnIncomeTaxAndPaysMaxOf200()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, balance: new Money(2200));
+            var player = PlayerServices.Create(Name.Horse, balance: new Money(2200));
             var game = GameServices.Create(new[] { player });
 
             (_, player) = game.IncomeTaxActivity(player);
@@ -176,7 +176,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerLandsOnIncomeTaxDoesNotPayWhenPlayerBalanceIsZero()
         {
-            var player = PlayerServices.Create(NameConstants.Horse);
+            var player = PlayerServices.Create(Name.Horse);
             var game = GameServices.Create(new[] { player });
 
             (_, player) = game.IncomeTaxActivity(player);
@@ -187,7 +187,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerLandsOnIncomeTaxAndPays10PercentUpToBalanceOf2000()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, balance: new Money(2000));
+            var player = PlayerServices.Create(Name.Horse, balance: new Money(2000));
             var game = GameServices.Create(new[] { player });
 
             (_, player) = game.IncomeTaxActivity(player);
@@ -198,7 +198,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerPassesOverIncomeTaxAndBalanceDoesNotChange()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.BalticAve, new Money(2000));
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.BalticAve, new Money(2000));
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(7);
 
@@ -211,7 +211,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerLandsOnLuxuryTaxAndPays75()
         {
-            var player = PlayerServices.Create(NameConstants.Horse, balance: new Money(100));
+            var player = PlayerServices.Create(Name.Horse, balance: new Money(100));
             var game = GameServices.Create(new[] { player });
 
             (_, player) = game.LuxuryTaxActivity(player);
@@ -223,13 +223,13 @@ namespace MonopolyKataTests
         public void PlayerPassesOverLuxuryTaxAndBalanceDoesNotChange()
         {
             var startingBalance = new Money(100);
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.ParkPlace, startingBalance);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.ParkPlace, startingBalance);
             var game = GameServices.Create(new[] { player }).StartNewRound();
             var rollResult = new RollResult(13);
 
             (_, player) = game.TakeTurn(player, rollResult);
 
-            var expectedBalance = startingBalance.Add(MonopolyConstants.PassingGoPayout);
+            var expectedBalance = startingBalance.Add(Money.PassingGoPayout);
             Assert.AreEqual(expectedBalance, player.Balance);
             Assert.AreEqual(LocationIndex.JustVisiting, player.Location);
         }

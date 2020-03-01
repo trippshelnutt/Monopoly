@@ -136,7 +136,7 @@ namespace MonopolyKata
         public static (Game, Player) TakeTurn(this Game game, Player player, RollResult rollResult)
         {
             var (timesPassingGo, location) = game.Board.MovePlayer(player.Location, rollResult);
-            (game, player) = game.DepositMoneyForPlayer(player, new Money(timesPassingGo * MonopolyConstants.PassingGoPayout.Amount));
+            (game, player) = game.DepositMoneyForPlayer(player, new Money(timesPassingGo * Money.PassingGoPayout.Amount));
 
             (game, player) = game.MovePlayerToLocation(player, location);
             (game, player) = game.ProcessLocationActivities(player);

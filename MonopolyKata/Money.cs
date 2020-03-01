@@ -14,6 +14,8 @@
         {
             return $"Money: {Amount}";
         }
+
+        public static readonly Money PassingGoPayout = new Money(200);
     }
 
     public static class MoneyServices

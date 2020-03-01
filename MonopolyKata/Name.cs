@@ -11,7 +11,10 @@
 
         public override string ToString()
         {
-            return $"PlayerName: {Value}";
+            return $"Name: {Value}";
         }
+
+        public static readonly Name Horse = new Name("horse");
+        public static readonly Name Car = new Name("car");
     }
 }

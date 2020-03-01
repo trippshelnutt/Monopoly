@@ -6,7 +6,7 @@ namespace MonopolyKataTests
     {
         public static Game CreateHorseCarGame()
         {
-            return GameServices.Create(new[] { NameConstants.Horse, NameConstants.Car });
+            return GameServices.Create(new[] { Name.Horse, Name.Car });
         }
     }
 }

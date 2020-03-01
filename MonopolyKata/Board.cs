@@ -7,8 +7,6 @@ namespace MonopolyKata
     {
         public const int NumberOfLocations = 40;
 
-        private Board() { }
-
         public Board(IDictionary<LocationIndex, Location> locations)
         {
             Locations = locations;

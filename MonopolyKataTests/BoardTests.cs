@@ -10,7 +10,7 @@ namespace MonopolyKataTests
         public void PlayerOnBeginningLocationRolls7AndEndsOnLocation7()
         {
             var board = BoardServices.Create();
-            var player = PlayerServices.Create(NameConstants.Horse);
+            var player = PlayerServices.Create(Name.Horse);
             var rollResult = new RollResult(7);
 
             var (_, location) = board.MovePlayer(player.Location, rollResult);
@@ -22,7 +22,7 @@ namespace MonopolyKataTests
         public void PlayerOnLocation39Rolls6AndEndsOnLocation5()
         {
             var board = BoardServices.Create();
-            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.Boardwalk);
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.Boardwalk);
             var rollResult = new RollResult(6);
 
             var (_, location) = board.MovePlayer(player.Location, rollResult);
