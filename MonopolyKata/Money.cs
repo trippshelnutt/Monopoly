@@ -14,15 +14,18 @@
         {
             return $"Money: {Amount}";
         }
+    }
 
-        public Money Add(Money money)
+    public static class MoneyServices
+    {
+        public static Money Add(this Money money, Money moneyToAdd)
         {
-            return new Money(Amount + money.Amount);
+            return new Money(money.Amount + moneyToAdd.Amount);
         }
 
-        public Money Subtract(Money money)
+        public static Money Subtract(this Money money, Money moneyToSubtract)
         {
-            return new Money(Amount - money.Amount);
+            return new Money(money.Amount - moneyToSubtract.Amount);
         }
     }
 }
