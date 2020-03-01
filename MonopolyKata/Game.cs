@@ -175,7 +175,7 @@ namespace MonopolyKata
 
         public static (Game, Player) GoToJailActivity(this Game game, Player player)
         {
-            return game.MovePlayerToLocation(player, LocationConstants.JustVisiting);
+            return game.MovePlayerToLocation(player, LocationIndex.JustVisiting);
         }
 
         public static (Game, Player) IncomeTaxActivity(this Game game, Player player)

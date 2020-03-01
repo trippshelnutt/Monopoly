@@ -22,12 +22,12 @@ namespace MonopolyKataTests
         public void PlayerOnLocation39Rolls6AndEndsOnLocation5()
         {
             var board = BoardServices.Create();
-            var player = PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk);
+            var player = PlayerServices.Create(NameConstants.Horse, LocationIndex.Boardwalk);
             var rollResult = new RollResult(6);
 
             var (_, location) = board.MovePlayer(player.Location, rollResult);
 
-            Assert.AreEqual(LocationConstants.ReadingRailroad, location);
+            Assert.AreEqual(LocationIndex.ReadingRailroad, location);
         }
     }
 }
