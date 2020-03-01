@@ -13,12 +13,14 @@ namespace MonopolyKata
             Board board,
             Die die,
             IList<Round> rounds,
+            IDictionary<Location, Player> owners,
             IDictionary<Location, Func<Game, Player, (Game, Player)>> activities)
         {
             Players = players;
             Board = board;
             Die = die;
             Rounds = rounds;
+            Owners = owners;
             Activities = activities;
         }
 
@@ -27,6 +29,7 @@ namespace MonopolyKata
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
+        public IDictionary<Location, Player> Owners { get; }
         public IDictionary<Location, Func<Game, Player, (Game, Player)>> Activities { get; }
 
         public Game With(
@@ -34,9 +37,10 @@ namespace MonopolyKata
             Board board = null,
             Die? die = null,
             IList<Round> rounds = null,
+            IDictionary<Location, Player> owners = null,
             IDictionary<Location, Func<Game, Player, (Game, Player)>> activities = null)
         {
-            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, activities ?? Activities);
+            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, owners ?? Owners, activities ?? Activities);
         }
     }
 
@@ -53,16 +57,38 @@ namespace MonopolyKata
 
         public static Game Create(IEnumerable<Player> players)
         {
-            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), BuildActivityDictionary()).ShufflePlayers();
+            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), new Dictionary<Location, Player>(), BuildActivityDictionary()).ShufflePlayers();
         }
 
         private static IDictionary<Location, Func<Game, Player, (Game, Player)>> BuildActivityDictionary()
         {
             return new Dictionary<Location, Func<Game, Player, (Game, Player)>>
             {
-                { LocationConstants.GoToJail, GameServices.GoToJailActivity },
+                { LocationConstants.MediterraneanAve, GameServices.RealEstateActivity },
+                { LocationConstants.BalticAve, GameServices.RealEstateActivity },
                 { LocationConstants.IncomeTax, GameServices.IncomeTaxActivity },
-                { LocationConstants.LuxuryTax, GameServices.LuxuryTaxActivity }
+                { LocationConstants.OrientalAve, GameServices.RealEstateActivity },
+                { LocationConstants.VermontAve, GameServices.RealEstateActivity },
+                { LocationConstants.ConnecticutAve, GameServices.RealEstateActivity },
+                { LocationConstants.StCharlesPlace, GameServices.RealEstateActivity },
+                { LocationConstants.StatesAve, GameServices.RealEstateActivity },
+                { LocationConstants.VirginiaAve, GameServices.RealEstateActivity },
+                { LocationConstants.StJamesPlace, GameServices.RealEstateActivity },
+                { LocationConstants.TennesseeAve, GameServices.RealEstateActivity },
+                { LocationConstants.NewYorkAve, GameServices.RealEstateActivity },
+                { LocationConstants.KentuckyAve, GameServices.RealEstateActivity },
+                { LocationConstants.IndianaAve, GameServices.RealEstateActivity },
+                { LocationConstants.IllinoisAve, GameServices.RealEstateActivity },
+                { LocationConstants.AtlanticAve, GameServices.RealEstateActivity },
+                { LocationConstants.VentnorAve, GameServices.RealEstateActivity },
+                { LocationConstants.MarvinGardens, GameServices.RealEstateActivity },
+                { LocationConstants.GoToJail, GameServices.GoToJailActivity },
+                { LocationConstants.PacificAve, GameServices.RealEstateActivity },
+                { LocationConstants.NorthCarolinaAve, GameServices.RealEstateActivity },
+                { LocationConstants.PennsylvaniaAve, GameServices.RealEstateActivity },
+                { LocationConstants.ParkPlace, GameServices.RealEstateActivity },
+                { LocationConstants.LuxuryTax, GameServices.LuxuryTaxActivity },
+                { LocationConstants.Boardwalk, GameServices.RealEstateActivity }
             };
         }
 
@@ -182,6 +208,11 @@ namespace MonopolyKata
         {
             var taxAmount = 75;
             return game.WithdrawMoneyForPlayer(player, new Money(taxAmount)); 
+        }
+
+        public static (Game, Player) RealEstateActivity(this Game game, Player player)
+        {
+            return (game, player);
         }
 
         public static Game AddTurn(this Game game, Turn turn)
