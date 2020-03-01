@@ -33,7 +33,7 @@ namespace MonopolyKata
 
         public static Game Create(IEnumerable<string> names)
         {
-            return Create(names.Select(n => Player.Create(n)));
+            return Create(names.Select(n => PlayerServices.Create(n)));
         }
 
         public static Game Create(IEnumerable<Player> players)

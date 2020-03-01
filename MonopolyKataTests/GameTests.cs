@@ -33,7 +33,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerOrderingIsRandom()
         {
-            var players = new[] { "horse", "car" }.Select(n => Player.Create(n));
+            var players = new[] { "horse", "car" }.Select(n => PlayerServices.Create(n));
 
             var games = Enumerable.Range(1, 100).Select(i => GameServices.Create(players));
 

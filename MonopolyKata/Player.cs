@@ -2,14 +2,7 @@
 {
     public readonly struct Player
     {
-        private Player(string name, int location, int balance)
-        {
-            Name = new Name(name);
-            Location = new Location(location);
-            Balance = new Money(balance);
-        }
-
-        private Player(Name name, Location location, Money balance)
+        public Player(Name name, Location location, Money balance)
         {
             Name = name;
             Location = location;
@@ -20,34 +13,37 @@
         public Location Location { get; }
         public Money Balance { get; }
 
-        public static Player Create(string name, int location = 0, int balance = 0)
-        {
-            return new Player(name, location, balance);
-        }
-
-        private Player With(Name? name = null, Location? location = null, Money? balance = null)
+        public Player With(Name? name = null, Location? location = null, Money? balance = null)
         {
             return new Player(name ?? Name, location ?? Location, balance ?? Balance);
         }
+    }
 
-        public Player MoveToLocation(Location location)
+    public static class PlayerServices
+    {
+        public static Player Create(string name, int location = 0, int balance = 0)
         {
-            return With(location: location);
+            return new Player(new Name(name), new Location(location), new Money(balance));
         }
 
-        public bool HasAvailableFunds(Money money)
+        public static Player MoveToLocation(this Player player, Location location)
         {
-            return Balance.Amount >= money.Amount;
+            return player.With(location: location);
         }
 
-        public Player DepositMoney(Money moneyToDeposit)
+        public static bool HasAvailableFunds(this Player player, Money money)
         {
-            return With(balance: Balance.Add(moneyToDeposit));
+            return player.Balance.Amount >= money.Amount;
         }
 
-        public Player WithdrawMoney(Money moneyToWithdraw)
+        public static Player DepositMoney(this Player player, Money moneyToDeposit)
         {
-            return With(balance: Balance.Subtract(moneyToWithdraw));
+            return player.With(balance: player.Balance.Add(moneyToDeposit));
+        }
+
+        public static Player WithdrawMoney(this Player player, Money moneyToWithdraw)
+        {
+            return player.With(balance: player.Balance.Subtract(moneyToWithdraw));
         }
     }
 }
