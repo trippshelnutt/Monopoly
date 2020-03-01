@@ -4,6 +4,7 @@ namespace MonopolyKata
 {
     public readonly struct Die
     {
+        private const int StandardNumberOfSides = 6;
         private static readonly Random Random = new Random();
 
         private Die(int numberOfSides)
@@ -13,7 +14,7 @@ namespace MonopolyKata
 
         public int NumberOfSides { get; }
 
-        public static Die Create(int numberOfSides)
+        public static Die Create(int numberOfSides = StandardNumberOfSides)
         {
             return new Die(numberOfSides);
         }

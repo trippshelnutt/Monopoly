@@ -46,7 +46,7 @@ namespace MonopolyKataTests
         {
             var game = Game.Create(new[] { "horse", "car" });
 
-            var rounds = game.Play();
+            var rounds = game.Play().Rounds;
 
             Assert.AreEqual(20, rounds.Count());
         }
@@ -56,7 +56,7 @@ namespace MonopolyKataTests
         {
             var game = Game.Create(new[] { "horse", "car" });
 
-            var rounds = game.Play();
+            var rounds = game.Play().Rounds;
 
             var turns = rounds.SelectMany(r => r.Turns);
             Assert.AreEqual(20, turns.Where(t => t.Player.Name.Value == "horse").Count());
@@ -68,7 +68,7 @@ namespace MonopolyKataTests
         {
             var game = Game.Create(new[] { "horse", "car" });
 
-            var rounds = game.Play();
+            var rounds = game.Play().Rounds;
 
             var firstPlayerTurns = rounds.Select(r => r.Turns[0]);
             var secondPlayerTurns = rounds.Select(r => r.Turns[1]);
