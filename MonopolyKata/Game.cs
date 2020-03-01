@@ -38,11 +38,6 @@ namespace MonopolyKata
 
         public static Game Create(IEnumerable<Player> players)
         {
-            if (players.Count() < MinimumNumberOfPlayers || players.Count() > MaximumNumberOfPlayers)
-            {
-                throw new Exception();
-            }
-
             return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>()).ShufflePlayers();
         }
 
@@ -57,6 +52,16 @@ namespace MonopolyKata
             return game.With(rounds: game.Rounds.Select(r => r.RoundNumber.Value == round.RoundNumber.Value ? round : r).ToList());
         }
 
+        public static Game ValidateNumberOfPlayers(this Game game)
+        {
+            if (game.Players.Count() < MinimumNumberOfPlayers || game.Players.Count() > MaximumNumberOfPlayers)
+            {
+                throw new Exception();
+            }
+
+            return game;
+        }
+
         public static Game ShufflePlayers(this Game game)
         {
             return game.With(game.Players.OrderBy(p => Guid.NewGuid()).ToList());
@@ -64,20 +69,26 @@ namespace MonopolyKata
 
         public static Game Play(this Game game)
         {
+            game = game.ValidateNumberOfPlayers()
+                .ShufflePlayers();
+
             for (var i = 0; i < NumberOfRounds; i++)
             {
                 game = game.PlayRound(); 
             }
+
             return game;
         }
 
         public static Game PlayRound(this Game game)
         {
             game = game.StartNewRound();
+
             foreach (var player in game.Players)
             {
                 game = game.TakeTurn(player);
             }
+
             return game;
         }
 
@@ -90,8 +101,14 @@ namespace MonopolyKata
         public static Game TakeTurn(this Game game, Player player)
         {
             var rollResult = game.Die.Roll();
-            var updatedPlayer = game.Board.MovePlayer(player, rollResult);
-            game = game.UpdatePlayer(updatedPlayer);
+
+            var (timesPassingGo, location) = game.Board.MovePlayer(player.Location, rollResult);
+
+            player = player.DepositMoney(new Money(timesPassingGo * 200));
+            player = player.MoveToLocation(location);
+
+            game = game.UpdatePlayer(player);
+
             return game.AddTurn(new Turn(player));
         }
 

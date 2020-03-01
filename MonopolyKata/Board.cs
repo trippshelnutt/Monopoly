@@ -22,13 +22,19 @@ namespace MonopolyKata
             return new Board(Enumerable.Range(0, 40).Select(i => new Location(i)).ToList());
         }
 
-        public static Player MovePlayer(this Board board, Player player, RollResult rollResult)
+        public static (int timesPassingGo, Location newLocation) MovePlayer(this Board board, Location location, RollResult rollResult)
         {
-            player = player.MoveToLocation(board.GetNewLocation(player.Location, rollResult.Value));
-            return player;
+            var timesPassingGo = board.GetNumberOfTimesPassingGo(location, rollResult.Value);
+            location = board.GetNewLocation(location, rollResult.Value);
+            return (timesPassingGo, location);
         }
 
-        private static Location GetNewLocation(this Board board, Location location, int numberToMove)
+        public static int GetNumberOfTimesPassingGo(this Board board, Location location, int numberToMove)
+        {
+            return (location.Index + numberToMove) / board.Locations.Count();
+        }
+
+        public static Location GetNewLocation(this Board board, Location location, int numberToMove)
         {
             var newIndex = (location.Index + numberToMove) % board.Locations.Count();
             return new Location(newIndex);

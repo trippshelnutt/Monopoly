@@ -13,9 +13,9 @@ namespace MonopolyKataTests
             var player = PlayerServices.Create("horse");
             var rollResult = new RollResult(7);
 
-            player = board.MovePlayer(player, rollResult);
+            var (_, location) = board.MovePlayer(player.Location, rollResult);
 
-            Assert.AreEqual(new Location(7), player.Location);
+            Assert.AreEqual(new Location(7), location);
         }
 
         [TestMethod]
@@ -25,9 +25,9 @@ namespace MonopolyKataTests
             var player = PlayerServices.Create("horse", 39);
             var rollResult = new RollResult(6);
 
-            player = board.MovePlayer(player, rollResult);
+            var (_, location) = board.MovePlayer(player.Location, rollResult);
 
-            Assert.AreEqual(new Location(5), player.Location);
+            Assert.AreEqual(new Location(5), location);
         }
     }
 }

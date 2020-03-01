@@ -20,14 +20,14 @@ namespace MonopolyKataTests
         [ExpectedException(typeof(Exception))]
         public void CreatingAGameWithLessThan2PlayersFails()
         {
-            GameServices.Create(new[] { "horse" });
+            GameServices.Create(new[] { "horse" }).Play();
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void CreatingAGameWithMoreThan8PlayersFails()
         {
-            GameServices.Create(Enumerable.Range(1, 9).Select(i => $"Player{i}"));
+            GameServices.Create(Enumerable.Range(1, 9).Select(i => $"Player{i}")).Play();
         }
 
         [TestMethod]
@@ -76,6 +76,17 @@ namespace MonopolyKataTests
             var secondPlayerName = secondPlayerTurns.First().Player.Name;
             Assert.IsTrue(firstPlayerTurns.All(t => t.Player.Name.Value == firstPlayerName.Value));
             Assert.IsTrue(secondPlayerTurns.All(t => t.Player.Name.Value == secondPlayerName.Value));
+        }
+
+        [TestMethod]
+        public void PlayerBalancesIncreasesBy200WhenPlayerLandsOnGo()
+        {
+            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+
+            game = game.StartNewRound()
+                .TakeTurn(game.Players.First());
+
+            Assert.AreEqual(new Money(200), game.Players.First().Balance);
         }
     }
 }
