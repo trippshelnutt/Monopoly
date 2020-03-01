@@ -79,7 +79,7 @@ namespace MonopolyKataTests
         }
 
         [TestMethod]
-        public void PlayerBalancesIncreasesBy200WhenPlayerLandsOnGo()
+        public void PlayerBalanceIncreasesBy200WhenPlayerLandsOnGo()
         {
             var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
             var rollResult = new RollResult(1);
@@ -88,6 +88,42 @@ namespace MonopolyKataTests
                 .TakeTurn(game.Players.First(), rollResult);
 
             Assert.AreEqual(new Money(200), game.Players.First().Balance);
+        }
+
+        [TestMethod]
+        public void PlayerBalanceIncreasesBy200WhenPlayerPassesOverGo()
+        {
+            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+            var rollResult = new RollResult(2);
+
+            game = game.StartNewRound()
+                .TakeTurn(game.Players.First(), rollResult);
+
+            Assert.AreEqual(new Money(200), game.Players.First().Balance);
+        }
+
+        [TestMethod]
+        public void PlayerBalanceDoesNotIncreaseBy200WhenPlayerDoesNotPassOverGo()
+        {
+            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 5) });
+            var rollResult = new RollResult(2);
+
+            game = game.StartNewRound()
+                .TakeTurn(game.Players.First(), rollResult);
+
+            Assert.AreEqual(new Money(0), game.Players.First().Balance);
+        }
+
+        [TestMethod]
+        public void PlayerBalanceIncreasesBy400IfPlayerCouldPassGoTwice()
+        {
+            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+            var rollResult = new RollResult(42);
+
+            game = game.StartNewRound()
+                .TakeTurn(game.Players.First(), rollResult);
+
+            Assert.AreEqual(new Money(400), game.Players.First().Balance);
         }
     }
 }
