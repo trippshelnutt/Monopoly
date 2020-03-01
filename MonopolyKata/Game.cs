@@ -17,6 +17,7 @@ namespace MonopolyKata
         }
 
         public IEnumerable<Player> Players { get; }
+        public IDictionary<Name, Player> PlayersByName => Players.ToDictionary(p => p.Name, p => p);
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
@@ -33,7 +34,7 @@ namespace MonopolyKata
         private const int MaximumNumberOfPlayers = 8;
         private const int NumberOfRounds = 20;
 
-        public static Game Create(IEnumerable<string> names)
+        public static Game Create(IEnumerable<Name> names)
         {
             return Create(names.Select(n => PlayerServices.Create(n)));
         }
@@ -111,6 +112,12 @@ namespace MonopolyKata
             var (timesPassingGo, location) = game.Board.MovePlayer(player.Location, rollResult);
 
             player = player.DepositMoney(new Money(timesPassingGo * MonopolyConstants.PassingGoPayout.Amount));
+
+            if (location.Equals(LocationConstants.GoToJail))
+            {
+                location = LocationConstants.JustVisiting;
+            }
+
             player = player.MoveToLocation(location);
 
             game = game.UpdatePlayer(player);

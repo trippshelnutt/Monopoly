@@ -11,7 +11,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void CanCreateAGameWithTwoPlayers()
         {
-            var game = GameServices.Create(new[] { "horse", "car" });
+            var game = GameTestsServices.CreateHorseCarGame();
 
             Assert.IsNotNull(game);
         }
@@ -20,31 +20,31 @@ namespace MonopolyKataTests
         [ExpectedException(typeof(Exception))]
         public void CreatingAGameWithLessThan2PlayersFails()
         {
-            GameServices.Create(new[] { "horse" }).Play();
+            var players = new[] { NameConstants.Horse };
+            GameServices.Create(players).Play();
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void CreatingAGameWithMoreThan8PlayersFails()
         {
-            GameServices.Create(Enumerable.Range(1, 9).Select(i => $"Player{i}")).Play();
+            var players = Enumerable.Range(1, 9).Select(i => PlayerServices.Create(new Name($"Player{i}")));
+            GameServices.Create(players).Play();
         }
 
         [TestMethod]
         public void PlayerOrderingIsRandom()
         {
-            var players = new[] { "horse", "car" }.Select(n => PlayerServices.Create(n));
+            var games = Enumerable.Range(1, 100).Select(i => GameTestsServices.CreateHorseCarGame());
 
-            var games = Enumerable.Range(1, 100).Select(i => GameServices.Create(players));
-
-            Assert.IsTrue(games.Any(g => g.Players.First().Name.Value == "horse"));
-            Assert.IsTrue(games.Any(g => g.Players.First().Name.Value == "car"));
+            Assert.IsTrue(games.Any(g => g.Players.First().Name.Equals(NameConstants.Horse)));
+            Assert.IsTrue(games.Any(g => g.Players.First().Name.Equals(NameConstants.Car)));
         }
 
         [TestMethod]
         public void PlayReturns20Rounds()
         {
-            var game = GameServices.Create(new[] { "horse", "car" });
+            var game = GameTestsServices.CreateHorseCarGame();
 
             var rounds = game.Play().Rounds;
 
@@ -54,7 +54,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayReturns20RoundsForEachPlayer()
         {
-            var game = GameServices.Create(new[] { "horse", "car" });
+            var game = GameTestsServices.CreateHorseCarGame();
 
             var rounds = game.Play().Rounds;
 
@@ -66,7 +66,7 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerOrderIsTheSameForEveryRound()
         {
-            var game = GameServices.Create(new[] { "horse", "car" });
+            var game = GameTestsServices.CreateHorseCarGame();
 
             var rounds = game.Play().Rounds;
 
@@ -81,49 +81,75 @@ namespace MonopolyKataTests
         [TestMethod]
         public void PlayerBalanceIncreasesBy200WhenPlayerLandsOnGo()
         {
-            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+            var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk) });
             var rollResult = new RollResult(1);
 
             game = game.StartNewRound()
-                .TakeTurn(game.Players.First(), rollResult);
+                .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
-            Assert.AreEqual(new Money(200), game.Players.First().Balance);
+            Assert.AreEqual(new Money(200), game.PlayersByName[NameConstants.Horse].Balance);
         }
 
         [TestMethod]
         public void PlayerBalanceIncreasesBy200WhenPlayerPassesOverGo()
         {
-            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+            var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk) });
             var rollResult = new RollResult(2);
 
             game = game.StartNewRound()
-                .TakeTurn(game.Players.First(), rollResult);
+                .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
-            Assert.AreEqual(new Money(200), game.Players.First().Balance);
+            Assert.AreEqual(new Money(200), game.PlayersByName[NameConstants.Horse].Balance);
         }
 
         [TestMethod]
         public void PlayerBalanceDoesNotIncreaseBy200WhenPlayerDoesNotPassOverGo()
         {
-            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 5) });
+            var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.ReadingRailroad) });
             var rollResult = new RollResult(2);
 
             game = game.StartNewRound()
-                .TakeTurn(game.Players.First(), rollResult);
+                .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
 
-            Assert.AreEqual(new Money(0), game.Players.First().Balance);
+            Assert.AreEqual(new Money(0), game.PlayersByName[NameConstants.Horse].Balance);
         }
 
         [TestMethod]
         public void PlayerBalanceIncreasesBy400IfPlayerCouldPassGoTwice()
         {
-            var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+            var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.Boardwalk) });
             var rollResult = new RollResult(42);
+
+            game = game.StartNewRound()
+                .TakeTurn(game.PlayersByName[NameConstants.Horse], rollResult);
+
+            Assert.AreEqual(new Money(400), game.PlayersByName[NameConstants.Horse].Balance);
+        }
+
+        [TestMethod]
+        public void PlayerLandsOnGoToJailAndEndsUpOnJustVisitingAndBalanceIsUnchanged()
+        {
+            var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.WaterWorks) });
+            var rollResult = new RollResult(2);
 
             game = game.StartNewRound()
                 .TakeTurn(game.Players.First(), rollResult);
 
-            Assert.AreEqual(new Money(400), game.Players.First().Balance);
+            Assert.AreEqual(new Money(0), game.PlayersByName[NameConstants.Horse].Balance);
+            Assert.AreEqual(LocationConstants.JustVisiting, game.PlayersByName[NameConstants.Horse].Location);
+        }
+
+        [TestMethod]
+        public void PlayerPassesOverGoToJailAndEndsUpOnNormalLocationAndBalanceIsUnchanged()
+        {
+            var game = GameServices.Create(new[] { PlayerServices.Create(NameConstants.Horse, LocationConstants.WaterWorks) });
+            var rollResult = new RollResult(3);
+
+            game = game.StartNewRound()
+                .TakeTurn(game.Players.First(), rollResult);
+
+            Assert.AreEqual(new Money(0), game.PlayersByName[NameConstants.Horse].Balance);
+            Assert.AreEqual(LocationConstants.PacificAve, game.PlayersByName[NameConstants.Horse].Location);
         }
     }
 }

@@ -21,9 +21,9 @@
 
     public static class PlayerServices
     {
-        public static Player Create(string name, int location = 0, int balance = 0)
+        public static Player Create(Name name, Location? location = null, Money? balance = null)
         {
-            return new Player(new Name(name), new Location(location), new Money(balance));
+            return new Player(name, location ?? new Location(0), balance ?? new Money(0));
         }
 
         public static Player MoveToLocation(this Player player, Location location)
