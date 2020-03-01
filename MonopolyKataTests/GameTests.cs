@@ -82,9 +82,10 @@ namespace MonopolyKataTests
         public void PlayerBalancesIncreasesBy200WhenPlayerLandsOnGo()
         {
             var game = GameServices.Create(new[] { PlayerServices.Create("horse", 39) });
+            var rollResult = new RollResult(1);
 
             game = game.StartNewRound()
-                .TakeTurn(game.Players.First());
+                .TakeTurn(game.Players.First(), rollResult);
 
             Assert.AreEqual(new Money(200), game.Players.First().Balance);
         }

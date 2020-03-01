@@ -86,7 +86,7 @@ namespace MonopolyKata
 
             foreach (var player in game.Players)
             {
-                game = game.TakeTurn(player);
+                game = game.RollAndTakeTurn(player);
             }
 
             return game;
@@ -98,10 +98,14 @@ namespace MonopolyKata
             return game.With(rounds: game.Rounds.Append(round).ToList());
         }
 
-        public static Game TakeTurn(this Game game, Player player)
+        public static Game RollAndTakeTurn(this Game game, Player player)
         {
             var rollResult = game.Die.Roll();
+            return game.TakeTurn(player, rollResult);
+        }
 
+        public static Game TakeTurn(this Game game, Player player, RollResult rollResult)
+        {
             var (timesPassingGo, location) = game.Board.MovePlayer(player.Location, rollResult);
 
             player = player.DepositMoney(new Money(timesPassingGo * 200));
