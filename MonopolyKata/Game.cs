@@ -4,8 +4,10 @@ using System.Linq;
 
 namespace MonopolyKata
 {
-    public readonly struct Game
+    public class Game
     {
+        private Game() { }
+
         public Game(IEnumerable<Player> players, Board board, Die die, IList<Round> rounds)
         {
             Players = players;

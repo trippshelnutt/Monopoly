@@ -3,8 +3,10 @@ using System.Linq;
 
 namespace MonopolyKata
 {
-    public readonly struct Round
+    public class Round
     {
+        private Round() { }
+
         public Round(RoundNumber roundNumber, IList<Turn> turns)
         {
             RoundNumber = roundNumber;

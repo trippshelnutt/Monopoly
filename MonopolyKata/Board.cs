@@ -3,9 +3,11 @@ using System.Linq;
 
 namespace MonopolyKata
 {
-    public readonly struct Board
+    public class Board
     {
         public const int NumberOfLocations = 40;
+
+        private Board() { }
 
         public Board(IList<Location> locations)
         {
