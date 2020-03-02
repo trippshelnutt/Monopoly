@@ -2,7 +2,7 @@
 {
     public readonly struct OwnedProperty
     {
-        public OwnedProperty(Property property, Name ownerName, bool isMortgaged)
+        public OwnedProperty(Property property, PlayerName ownerName, bool isMortgaged)
         {
             Property = property;
             OwnerName = ownerName;
@@ -10,7 +10,7 @@
         }
 
         public Property Property { get; }
-        public Name OwnerName { get; }
+        public PlayerName OwnerName { get; }
         public bool IsMortgaged { get; }
     }
 }

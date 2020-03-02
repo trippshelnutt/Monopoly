@@ -2,33 +2,33 @@
 {
     public readonly struct Player
     {
-        public Player(Name name, LocationIndex location, Money balance)
+        public Player(PlayerName playerName, LocationIndex location, Money balance)
         {
-            Name = name;
+            PlayerName = playerName;
             Location = location;
             Balance = balance;
         }
 
-        public Name Name { get; }
+        public PlayerName PlayerName { get; }
         public LocationIndex Location { get; }
         public Money Balance { get; }
 
-        public Player With(Name? name = null, LocationIndex? location = null, Money? balance = null)
+        public Player With(PlayerName? playerName = null, LocationIndex? location = null, Money? balance = null)
         {
-            return new Player(name ?? Name, location ?? Location, balance ?? Balance);
+            return new Player(playerName ?? PlayerName, location ?? Location, balance ?? Balance);
         }
 
         public override string ToString()
         {
-            return $"Player {Name}";
+            return $"Player {PlayerName}";
         }
     }
 
     public static class PlayerServices
     {
-        public static Player Create(Name name, LocationIndex? location = null, Money? balance = null)
+        public static Player Create(PlayerName playerName, LocationIndex? location = null, Money? balance = null)
         {
-            return new Player(name, location ?? new LocationIndex(0), balance ?? new Money(0));
+            return new Player(playerName, location ?? new LocationIndex(0), balance ?? new Money(0));
         }
 
         public static Player MoveToLocation(this Player player, LocationIndex location)

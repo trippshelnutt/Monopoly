@@ -1,8 +1,8 @@
 ﻿namespace MonopolyKata
 {
-    public readonly struct Name
+    public readonly struct PlayerName
     {
-        public Name(string value)
+        public PlayerName(string value)
         {
             Value = value;
         }
@@ -14,7 +14,7 @@
             return $"Name: {Value}";
         }
 
-        public static readonly Name Horse = new Name("horse");
-        public static readonly Name Car = new Name("car");
+        public static readonly PlayerName Horse = new PlayerName("horse");
+        public static readonly PlayerName Car = new PlayerName("car");
     }
 }

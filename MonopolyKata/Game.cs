@@ -25,7 +25,7 @@ namespace MonopolyKata
         }
 
         public IEnumerable<Player> Players { get; }
-        public IDictionary<Name, Player> PlayersByName => Players.ToDictionary(p => p.Name, p => p);
+        public IDictionary<PlayerName, Player> PlayersByName => Players.ToDictionary(p => p.PlayerName, p => p);
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
@@ -50,7 +50,7 @@ namespace MonopolyKata
         private const int MaximumNumberOfPlayers = 8;
         private const int NumberOfRounds = 20;
 
-        public static Game Create(IEnumerable<Name> names)
+        public static Game Create(IEnumerable<PlayerName> names)
         {
             return Create(names.Select(n => PlayerServices.Create(n)));
         }
@@ -73,7 +73,7 @@ namespace MonopolyKata
 
         private static Game UpdatePlayer(this Game game, Player player)
         {
-            return game.With(players: game.Players.Select(p => p.Name.Value == player.Name.Value ? player : p));
+            return game.With(players: game.Players.Select(p => p.PlayerName.Value == player.PlayerName.Value ? player : p));
         }
 
         private static Game UpdateRound(this Game game, Round round)
