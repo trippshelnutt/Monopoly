@@ -13,14 +13,14 @@ namespace MonopolyKata
             Board board,
             Die die,
             IList<Round> rounds,
-            IDictionary<LocationIndex, OwnedProperty> ownedProperties,
+            PropertyBroker broker,
             IDictionary<LocationType, Func<Game, Player, (Game, Player)>> activities)
         {
             Players = players;
             Board = board;
             Die = die;
             Rounds = rounds;
-            OwnedProperties = ownedProperties;
+            Broker = broker;
             Activities = activities;
         }
 
@@ -29,7 +29,7 @@ namespace MonopolyKata
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
-        public IDictionary<LocationIndex, OwnedProperty> OwnedProperties { get; }
+        public PropertyBroker Broker { get; }
         public IDictionary<LocationType, Func<Game, Player, (Game, Player)>> Activities { get; }
 
         public Game With(
@@ -37,10 +37,10 @@ namespace MonopolyKata
             Board board = null,
             Die? die = null,
             IList<Round> rounds = null,
-            IDictionary<LocationIndex, OwnedProperty> ownedProperties = null,
+            PropertyBroker broker = null,
             IDictionary<LocationType, Func<Game, Player, (Game, Player)>> activities = null)
         {
-            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, ownedProperties ?? OwnedProperties, activities ?? Activities);
+            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, broker ?? Broker, activities ?? Activities);
         }
     }
 
@@ -57,7 +57,7 @@ namespace MonopolyKata
 
         public static Game Create(IEnumerable<Player> players)
         {
-            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), new Dictionary<LocationIndex, OwnedProperty>(), BuildActivityDictionary()).ShufflePlayers();
+            return new Game(players, BoardServices.Create(), DieServices.Create(), new List<Round>(), PropertyBrokerServices.Create(), BuildActivityDictionary()).ShufflePlayers();
         }
 
         private static IDictionary<LocationType, Func<Game, Player, (Game, Player)>> BuildActivityDictionary()

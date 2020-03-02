@@ -69,6 +69,8 @@ namespace MonopolyKata
         public static readonly Money PennsylvaniaAveRent = new Money(28);
         public static readonly Money ParkPlaceRent = new Money(35);
         public static readonly Money BoardwalkRent = new Money(50);
+        public static readonly Money RailroadRent = new Money(0);
+        public static readonly Money UtilityRent = new Money(0);
     }
 
     public static class MoneyServices
@@ -148,6 +150,12 @@ namespace MonopolyKata
                 { LocationIndex.PennsylvaniaAve, Money.PennsylvaniaAveRent },
                 { LocationIndex.ParkPlace, Money.ParkPlaceRent },
                 { LocationIndex.Boardwalk, Money.BoardwalkRent },
+                { LocationIndex.ReadingRailroad, Money.RailroadRent },
+                { LocationIndex.ShortLineRailroad, Money.RailroadRent },
+                { LocationIndex.BAndORailroad, Money.RailroadRent },
+                { LocationIndex.PennsylvaniaRailroad, Money.RailroadRent },
+                { LocationIndex.ElectricCompany, Money.UtilityRent },
+                { LocationIndex.WaterWorks, Money.UtilityRent },
             };
             return RentDictionary[index];
         }

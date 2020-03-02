@@ -17,15 +17,16 @@ namespace MonopolyKata
 
     public static class BoardServices
     {
+        private static IDictionary<LocationIndex, Location> LocationDictionary;
 
         public static Board Create()
         {
-            return new Board(BuildLocationDictionary());
+            return new Board(GetLocationDictionary());
         }
 
-        private static IDictionary<LocationIndex, Location> BuildLocationDictionary()
+        public static IDictionary<LocationIndex, Location> GetLocationDictionary()
         {
-            return new List<Location>()
+            LocationDictionary = LocationDictionary ?? new List<Location>()
             {
                 new Location(LocationIndex.Go, LocationType.Go),
                 new Location(LocationIndex.MediterraneanAve, LocationType.Property),
@@ -68,6 +69,8 @@ namespace MonopolyKata
                 new Location(LocationIndex.LuxuryTax, LocationType.LuxuryTax),
                 new Location(LocationIndex.Boardwalk, LocationType.Property),
             }.ToDictionary(l => l.Index);
+
+            return LocationDictionary;
         }
 
         public static (int timesPassingGo, LocationIndex newLocation) MovePlayer(this Board board, LocationIndex location, RollResult rollResult)

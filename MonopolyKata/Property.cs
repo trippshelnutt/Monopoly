@@ -2,22 +2,34 @@
 {
     public readonly struct Property
     {
-        public Property(Location location, PropertyGroup propertyGroup, Money cost, Money rent)
+        public Property(LocationIndex locationIndex, PropertyGroup propertyGroup, Money cost, Money rent)
         {
-            Location = location;
+            LocationIndex = locationIndex;
             PropertyGroup = propertyGroup;
             Cost = cost;
             Rent = rent;
         }
 
-        public Location Location { get; }
+        public LocationIndex LocationIndex { get; }
         public PropertyGroup PropertyGroup { get; }
         public Money Cost { get; }
         public Money Rent { get; }
 
         public override string ToString()
         {
-            return $"Property: {Location}";
+            return $"Property: {LocationIndex}";
+        }
+    }
+
+    public static class PropertyServices
+    {
+        public static Property BuildProperty(LocationIndex locationIndex)
+        {
+            return new Property(
+                locationIndex,
+                PropertyGroupServices.GetPropertyGroup(locationIndex),
+                MoneyServices.GetCost(locationIndex),
+                MoneyServices.GetRent(locationIndex));
         }
     }
 }
