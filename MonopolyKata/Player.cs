@@ -17,6 +17,11 @@
         {
             return new Player(name ?? Name, location ?? Location, balance ?? Balance);
         }
+
+        public override string ToString()
+        {
+            return $"Player {Name}";
+        }
     }
 
     public static class PlayerServices

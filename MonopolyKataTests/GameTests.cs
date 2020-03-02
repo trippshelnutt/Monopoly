@@ -95,10 +95,11 @@ namespace MonopolyKataTests
         {
             var player = PlayerServices.Create(Name.Horse, LocationIndex.Boardwalk);
             var game = GameServices.Create(new[] { player }).StartNewRound();
-            var rollResult = new RollResult(2);
+            var rollResult = new RollResult(11);
 
             (_, player) = game.TakeTurn(player, rollResult);
 
+            Assert.AreEqual(LocationIndex.JustVisiting, player.Location);
             Assert.AreEqual(new Money(200), player.Balance);
         }
 
@@ -119,10 +120,11 @@ namespace MonopolyKataTests
         {
             var player = PlayerServices.Create(Name.Horse, LocationIndex.Boardwalk);
             var game = GameServices.Create(new[] { player }).StartNewRound();
-            var rollResult = new RollResult(42);
+            var rollResult = new RollResult(51);
 
             (_, player) = game.TakeTurn(player, rollResult);
 
+            Assert.AreEqual(LocationIndex.JustVisiting, player.Location);
             Assert.AreEqual(new Money(400), player.Balance);
         }
 
@@ -143,12 +145,12 @@ namespace MonopolyKataTests
         {
             var player = PlayerServices.Create(Name.Horse, LocationIndex.WaterWorks);
             var game = GameServices.Create(new[] { player }).StartNewRound();
-            var rollResult = new RollResult(3);
+            var rollResult = new RollResult(8);
 
             (_, player) = game.TakeTurn(player, rollResult);
 
             Assert.AreEqual(new Money(0), player.Balance);
-            Assert.AreEqual(LocationIndex.PacificAve, player.Location);
+            Assert.AreEqual(LocationIndex.Location36, player.Location);
         }
 
         [TestMethod]
@@ -232,6 +234,18 @@ namespace MonopolyKataTests
             var expectedBalance = startingBalance.Add(Money.PassingGoPayout);
             Assert.AreEqual(expectedBalance, player.Balance);
             Assert.AreEqual(LocationIndex.JustVisiting, player.Location);
+        }
+
+        [TestMethod]
+        public void PlayerLandsOnPropertyAndBuysIt()
+        {
+            var player = PlayerServices.Create(Name.Horse, LocationIndex.MediterraneanAve, new Money(100));
+            var game = GameServices.Create(new[] { player });
+
+            (game, player) = game.PropertyActivity(player);
+
+            Assert.AreEqual(new Money(40), player.Balance);
+            Assert.AreEqual(player.Name, game.PropertyBroker.OwnedProperties[player.Location].OwnerName);
         }
     }
 }

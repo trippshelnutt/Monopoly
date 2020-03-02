@@ -52,7 +52,7 @@ namespace MonopolyKata
             if (!broker.PropertyIsOwned(locationIndex))
             {
                 var property = broker.Properties[locationIndex];
-                var ownedProperty = new OwnedProperty(property, player, false);
+                var ownedProperty = new OwnedProperty(property, player.Name, false);
                 broker = broker.AddOwnedProperty(ownedProperty);
                 player = player.WithdrawMoney(property.Cost);
             }

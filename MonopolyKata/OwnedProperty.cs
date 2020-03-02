@@ -2,15 +2,15 @@
 {
     public readonly struct OwnedProperty
     {
-        public OwnedProperty(Property property, Player owner, bool isMortgaged)
+        public OwnedProperty(Property property, Name ownerName, bool isMortgaged)
         {
             Property = property;
-            Owner = owner;
+            OwnerName = ownerName;
             IsMortgaged = isMortgaged;
         }
 
         public Property Property { get; }
-        public Player Owner { get; }
+        public Name OwnerName { get; }
         public bool IsMortgaged { get; }
     }
 }

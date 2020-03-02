@@ -13,14 +13,14 @@ namespace MonopolyKata
             Board board,
             Die die,
             IList<Round> rounds,
-            PropertyBroker broker,
+            PropertyBroker propertyBroker,
             IDictionary<LocationType, Func<Game, Player, (Game, Player)>> activities)
         {
             Players = players;
             Board = board;
             Die = die;
             Rounds = rounds;
-            Broker = broker;
+            PropertyBroker = propertyBroker;
             Activities = activities;
         }
 
@@ -29,7 +29,7 @@ namespace MonopolyKata
         public Board Board { get; }
         public Die Die { get; }
         public IList<Round> Rounds { get; }
-        public PropertyBroker Broker { get; }
+        public PropertyBroker PropertyBroker { get; }
         public IDictionary<LocationType, Func<Game, Player, (Game, Player)>> Activities { get; }
 
         public Game With(
@@ -37,10 +37,10 @@ namespace MonopolyKata
             Board board = null,
             Die? die = null,
             IList<Round> rounds = null,
-            PropertyBroker broker = null,
+            PropertyBroker propertyBroker = null,
             IDictionary<LocationType, Func<Game, Player, (Game, Player)>> activities = null)
         {
-            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, broker ?? Broker, activities ?? Activities);
+            return new Game(players ?? Players, board ?? Board, die ?? Die, rounds ?? Rounds, propertyBroker ?? PropertyBroker, activities ?? Activities);
         }
     }
 
@@ -192,6 +192,14 @@ namespace MonopolyKata
 
         public static (Game, Player) PropertyActivity(this Game game, Player player)
         {
+            if (!game.PropertyBroker.PropertyIsOwned(player.Location))
+            {
+                var broker = game.PropertyBroker;
+                (broker, player) = broker.PurchaseProperty(player.Location, player);
+                game = game.UpdatePlayer(player);
+                game = game.With(propertyBroker: broker);
+            }
+
             return (game, player);
         }
 
