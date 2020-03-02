@@ -36,9 +36,28 @@ namespace MonopolyKata
             return new PropertyBroker(properties, new Dictionary<LocationIndex, OwnedProperty>());
         }
 
+        public static PropertyBroker AddOwnedProperty(this PropertyBroker broker, OwnedProperty ownedProperty)
+        {
+            var ownedProperties = broker.OwnedProperties.Values.Append(ownedProperty).ToDictionary(o => o.Property.LocationIndex);
+            return broker.With(ownedProperties: ownedProperties);
+        }
+
         public static bool PropertyIsOwned(this PropertyBroker broker, LocationIndex index)
         {
             return broker.OwnedProperties.ContainsKey(index);
+        }
+
+        public static (PropertyBroker, Player) PurchaseProperty(this PropertyBroker broker, LocationIndex locationIndex, Player player)
+        {
+            if (!broker.PropertyIsOwned(locationIndex))
+            {
+                var property = broker.Properties[locationIndex];
+                var ownedProperty = new OwnedProperty(property, player, false);
+                broker = broker.AddOwnedProperty(ownedProperty);
+                player = player.WithdrawMoney(property.Cost);
+            }
+
+            return (broker, player);
         }
     }
 }
