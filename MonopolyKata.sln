@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonopolyKata", "MonopolyKata\MonopolyKata.csproj", "{47CE0641-B559-485C-9D1E-D181218AA073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonopolyKataTests", "MonopolyKataTests\MonopolyKataTests.csproj", "{EB81F378-1925-44CC-A177-4A42EC1FD7CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47CE0641-B559-485C-9D1E-D181218AA073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47CE0641-B559-485C-9D1E-D181218AA073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47CE0641-B559-485C-9D1E-D181218AA073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47CE0641-B559-485C-9D1E-D181218AA073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB81F378-1925-44CC-A177-4A42EC1FD7CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB81F378-1925-44CC-A177-4A42EC1FD7CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB81F378-1925-44CC-A177-4A42EC1FD7CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB81F378-1925-44CC-A177-4A42EC1FD7CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {24C2B785-2E3D-41D5-8547-847091A84805}
+	EndGlobalSection
+EndGlobal
